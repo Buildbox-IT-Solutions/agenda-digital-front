@@ -1,0 +1,8 @@
+.screenWrapper{
+    width: 1080px !important;
+    height: 1920px !important;
+    overflow: hidden;
+    background-color: #000;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
