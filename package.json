@@ -15,8 +15,13 @@
 		"prepare": "lefthook install"
 	},
 	"dependencies": {
+		"@tanstack/react-query": "^5.67.3",
+		"axios": "^1.8.2",
+		"date-fns": "^4.1.0",
 		"react": "^19.0.0",
-		"react-dom": "^19.0.0"
+		"react-dom": "^19.0.0",
+		"react-router": "^7.3.0",
+		"zod": "^3.24.2"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
