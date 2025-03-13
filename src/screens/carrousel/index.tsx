@@ -25,7 +25,12 @@ export function CarrouselScreen() {
 		const multipliedEvents: IEvent[] = []
 
 		for (let i = 0; i < multiplier; i++) {
-			multipliedEvents.push(...events)
+			for (const event of events) {
+				multipliedEvents.push({
+					...event,
+					id: `${event.id}-${i}`,
+				})
+			}
 		}
 
 		return multipliedEvents
