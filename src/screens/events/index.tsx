@@ -22,12 +22,12 @@ export function EventsScreen() {
 					<Loading />
 				</main>
 			) : (
-				<main className="flex flex-1 flex-wrap justify-center gap-4 overflow-y-auto p-4 align-center">
-					{events?.map(({ title, id, imageUrl }) => (
+				<main className="m-auto flex flex-wrap justify-center gap-4 overflow-y-auto p-4 ">
+					{events?.map(({ title, imageUrl, event_id }) => (
 						<Link
-							key={id}
-							className="flex max-w-80 flex-col overflow-hidden rounded-lg border border-white bg-white"
-							to={`/channels/${id}`}
+							key={event_id}
+							className="flex max-h-96 max-w-80 flex-col overflow-hidden rounded-lg border border-white bg-white"
+							to={`/channels/${event_id}`}
 						>
 							<img className="" src={imageUrl} alt={title} />
 

@@ -1,6 +1,6 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query'
 import { EQueryKeys } from '~/enums/query-keys'
-import type { IEvent } from '~/interfaces/channels'
+import type { IEvent } from '~/interfaces/event'
 import { api } from './api'
 
 export function useGetEvents(): UseQueryResult<IEvent[]> {

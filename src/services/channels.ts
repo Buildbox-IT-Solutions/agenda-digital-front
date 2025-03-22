@@ -1,39 +1,16 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query'
-import { format } from 'date-fns'
 import { EQueryKeys } from '~/enums/query-keys'
-import type { IEventConfig } from '~/interfaces/event'
+import type { IChannel } from '~/interfaces/channel'
 import { api } from './api'
 
-export function useEventConfig(
-	channelId: string,
-): UseQueryResult<IEventConfig> {
+export function useGetChannels(eventId?: string): UseQueryResult<IChannel[]> {
 	return useQuery({
-		queryKey: [EQueryKeys.CONFIG, channelId],
+		queryKey: [EQueryKeys.CHANNELS, eventId],
 		queryFn: async () => {
-			const response = await api(
-				`/event/get-channel-content/${channelId}`,
-			)
+			const response = await api(`/event/get-channels/${eventId}`)
 
 			return response.data
 		},
-		enabled: !!channelId,
-	})
-}
-
-export function useEventAgenda(
-	channelId: string,
-): UseQueryResult<IEventConfig> {
-	const date = format(new Date(), 'yyyy-MM-dd')
-
-	return useQuery({
-		queryKey: [EQueryKeys.AGENDA, channelId, date],
-		queryFn: async () => {
-			const response = await api(
-				`/event/get-agenda-content-by-date/${channelId}/${date}`,
-			)
-
-			return response.data
-		},
-		enabled: !!channelId,
+		enabled: !!eventId,
 	})
 }
