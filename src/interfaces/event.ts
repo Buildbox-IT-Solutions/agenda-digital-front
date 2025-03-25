@@ -1,10 +1,7 @@
 export interface IEvent {
-	id: string
-	title: string
 	beginsAt: string
-	banner: IEventBanner
-}
-
-export interface IEventBanner {
+	event_id: string
+	id: number
 	imageUrl: string
+	title: string
 }

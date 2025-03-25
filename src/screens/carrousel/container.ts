@@ -1,44 +1,52 @@
-import { addHours, isWithinInterval, parseISO } from 'date-fns'
+import { isWithinInterval, parseISO } from 'date-fns'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import type { IEvent } from '~/interfaces/event'
-import { useEvents } from '~/services/events'
+import { useParams } from 'react-router'
+import type { IAgenda } from '~/interfaces/agenda'
+import { useCarrouselAgenda, useCarrouselConfig } from '~/services/carrousel'
 
-const SCROLL_SPEED = 0.15
+const SCROLL_SPEED = 0.1
 
-export function useCarrouselScreenContainer() {
+export function useChannelScreenContainer() {
 	const [multiplier, setMultiplier] = useState(1)
 
-	const [currentEvent, setCurrentEvent] = useState<IEvent | null>(null)
+	const [currentEvent, setCurrentEvent] = useState<IAgenda | null>(null)
 
 	const scrollContainerRef = useRef<HTMLDivElement>(null)
+
 	const itemsContainerRef = useRef<HTMLDivElement>(null)
 
-	const { data: events } = useEvents()
+	const { id } = useParams<{
+		id: string
+	}>()
+
+	const { data: config } = useCarrouselConfig(id)
+
+	const { data: agenda } = useCarrouselAgenda(id)
 
 	const renderList = useMemo(() => {
-		if (!events) return []
+		if (!agenda) return []
 
-		const multipliedEvents: IEvent[] = []
+		const multipliedEvents: IAgenda[] = []
 
 		for (let i = 0; i < multiplier; i++) {
-			for (const event of events) {
+			for (const event of agenda) {
 				multipliedEvents.push({
 					...event,
-					id: `${event.id}-${i}`,
+					id: `${event.title}-${i}`,
 				})
 			}
 		}
 
 		return multipliedEvents
-	}, [events, multiplier])
+	}, [agenda, multiplier])
 
 	function verifyCurrentEvent() {
 		const now = new Date()
 
-		for (const event of events || []) {
+		for (const event of agenda || []) {
 			const startDate = parseISO(event.beginsAt)
 
-			const endDate = addHours(startDate, 1)
+			const endDate = parseISO(event.endsAt)
 
 			const isCurrentEvent = isWithinInterval(now, {
 				start: startDate,
@@ -55,16 +63,16 @@ export function useCarrouselScreenContainer() {
 	function currentEventObserver() {
 		verifyCurrentEvent()
 
-		const intervalId = setInterval(verifyCurrentEvent, 1000 * 30) // 30 seconds
+		const intervalId = setInterval(verifyCurrentEvent, 1000 * 30) //30 seconds
 
 		return () => {
 			clearInterval(intervalId)
 		}
 	}
-	useEffect(currentEventObserver, [events])
+	useEffect(currentEventObserver, [agenda])
 
 	function calcMultiplier() {
-		if (!events) return
+		if (!agenda) return
 
 		const scrollContainer = scrollContainerRef.current
 		const itemsContainer = itemsContainerRef.current
@@ -75,7 +83,7 @@ export function useCarrouselScreenContainer() {
 
 			if (itemHeight) {
 				const minRequiredHeight = containerHeight * 2
-				const currentTotalHeight = itemHeight * events.length
+				const currentTotalHeight = itemHeight * agenda.length
 				const multiplier = Math.ceil(
 					minRequiredHeight / currentTotalHeight,
 				)
@@ -85,7 +93,7 @@ export function useCarrouselScreenContainer() {
 			}
 		}
 	}
-	useEffect(calcMultiplier, [events?.length])
+	useEffect(calcMultiplier, [agenda?.length])
 
 	function handleAutoScroll() {
 		const scrollContainer = scrollContainerRef.current
@@ -128,7 +136,6 @@ export function useCarrouselScreenContainer() {
 		scrollContainerRef,
 		itemsContainerRef,
 		renderList,
-		calcMultiplier,
-		multiplier,
+		config,
 	}
 }
