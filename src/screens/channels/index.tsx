@@ -30,8 +30,8 @@ export function ChannelsScreen() {
 					{channels?.map(({ title, id }) => (
 						<Link
 							key={id}
-							className="flex h-fit w-full w-full max-w-xl flex-col items-center justify-center overflow-hidden rounded-lg border border-white bg-white p-4"
-							to={`/channels/${id}`}
+							className="flex h-fit w-full max-w-xl flex-col items-center justify-center overflow-hidden rounded-lg border border-white bg-white p-4"
+							to={`/carrousel/${id}`}
 						>
 							<h2 className="text-center font-semibold text-2xl">
 								{title}

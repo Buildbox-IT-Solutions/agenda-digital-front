@@ -13,7 +13,7 @@ export function EventsScreen() {
 				backgroundImage: `url(${backgroundAsset})`,
 			}}
 		>
-			<header className="flex h-20 items-center justify-center border-white border-b bg-blue-900">
+			<header className="flex min-h-20 items-center justify-center border-white border-b bg-blue-900">
 				<h1 className="text-2xl text-white uppercase">Eventos</h1>
 			</header>
 
@@ -26,10 +26,14 @@ export function EventsScreen() {
 					{events?.map(({ title, imageUrl, event_id }) => (
 						<Link
 							key={event_id}
-							className="flex max-h-96 max-w-80 flex-col overflow-hidden rounded-lg border border-white bg-white"
+							className="flex max-h-96 w-full max-w-80 flex-col overflow-hidden rounded-lg border border-white bg-white"
 							to={`/channels/${event_id}`}
 						>
-							<img className="" src={imageUrl} alt={title} />
+							<img
+								className="h-full max-h-40 w-full"
+								src={imageUrl}
+								alt={title}
+							/>
 
 							<div className="flex flex-1 flex-col gap-4 p-4">
 								<h2 className="mb-auto text-center font-semibold text-2xl">

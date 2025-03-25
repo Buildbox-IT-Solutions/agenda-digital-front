@@ -1,3 +1,4 @@
+/* v8 ignore start */
 import { z } from 'zod'
 
 const envSchema = z.object({
@@ -21,3 +22,4 @@ if (!_env.success) {
 }
 
 export const env = _env.data
+/* v8 ignore stop */
