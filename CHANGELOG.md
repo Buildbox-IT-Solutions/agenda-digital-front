@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.1.0...v1.2.0) (2025-03-27)
+
+
+### Features
+
+* adding action deploy ([cb04001](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/commit/cb04001e370e4c55983cc2e96a67bf5c2c4bedb8))
+
 # [1.1.0](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.0.0...v1.1.0) (2025-03-25)
 
 
