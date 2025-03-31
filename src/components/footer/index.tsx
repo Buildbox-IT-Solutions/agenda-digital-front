@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import logo from '~/assets/images/logo.svg'
 import type { IFooterProps } from './types'
 
-export function Footer({ dataUpdatedAt }: IFooterProps) {
+export function Footer({ dataUpdatedAt = 0 }: IFooterProps) {
 	const [time, setTime] = useState(Date.now())
 
 	function updateTime() {
@@ -29,7 +29,7 @@ export function Footer({ dataUpdatedAt }: IFooterProps) {
 					{format(time, 'HH:mm')}
 				</span>
 
-				{dataUpdatedAt && (
+				{dataUpdatedAt > 0 && (
 					<p className="font-medium text-white text-xs">
 						Última Sincronização:{' '}
 						<strong>

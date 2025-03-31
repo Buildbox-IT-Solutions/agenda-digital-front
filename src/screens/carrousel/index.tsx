@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import arrowDownRightIcon from '~/assets/icons/arrow-down-right.svg'
 import backgroundAsset from '~/assets/images/background-asset.svg'
 import { Agenda } from '~/components/agenda'
+import { Banner } from '~/components/banner'
 import { Footer } from '~/components/footer'
 import { useChannelScreenContainer } from './container'
 
@@ -13,6 +14,7 @@ export function CarrouselScreen() {
 		scrollContainerRef,
 		config,
 		dataUpdatedAt,
+		currentBanner,
 	} = useChannelScreenContainer()
 
 	return (
@@ -34,7 +36,9 @@ export function CarrouselScreen() {
 						}
 			}
 		>
-			<main className="flex h-screen w-full max-w-5xl flex-col">
+			<main className="relative flex h-screen w-full max-w-5xl flex-col">
+				<Banner banner={currentBanner} headerImg={config?.top_banner} />
+
 				<header className="shadow- bg-black/50 shadow-black backdrop-blur-3xl">
 					{config?.top_banner && (
 						<div className="p-12">
