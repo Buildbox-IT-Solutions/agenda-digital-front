@@ -1,10 +1,11 @@
 import { Link } from 'react-router'
 import backgroundAsset from '~/assets/images/background-asset.svg'
+import { Footer } from '~/components/footer'
 import { Loading } from '~/components/loading'
 import { useGetEvents } from '~/services/events'
 
 export function EventsScreen() {
-	const { data: events, isLoading } = useGetEvents()
+	const { data: events, isLoading, dataUpdatedAt } = useGetEvents()
 
 	return (
 		<div
@@ -51,6 +52,8 @@ export function EventsScreen() {
 					))}
 				</main>
 			)}
+
+			<Footer dataUpdatedAt={dataUpdatedAt} />
 		</div>
 	)
 }

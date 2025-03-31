@@ -21,7 +21,7 @@ export function useChannelScreenContainer() {
 
 	const { data: config } = useCarrouselConfig(id)
 
-	const { data: agenda } = useCarrouselAgenda(id)
+	const { data: agenda, dataUpdatedAt } = useCarrouselAgenda(id)
 
 	const renderList = useMemo(() => {
 		if (!agenda) return []
@@ -137,5 +137,6 @@ export function useChannelScreenContainer() {
 		itemsContainerRef,
 		renderList,
 		config,
+		dataUpdatedAt,
 	}
 }
