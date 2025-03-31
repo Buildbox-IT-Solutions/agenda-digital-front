@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.2.0...v1.3.0) (2025-03-31)
+
+
+### Features
+
+* **ci:** improve release action and deploy with pnpm ([8547743](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/commit/854774346e565ccf02b9530141a377a58bcd3fa1))
+
 # [1.2.0](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.1.0...v1.2.0) (2025-03-27)
 
 
