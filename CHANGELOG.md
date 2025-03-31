@@ -1,3 +1,11 @@
+# [1.4.0](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.3.0...v1.4.0) (2025-03-31)
+
+
+### Features
+
+* add ad banners ([4f5f104](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/commit/4f5f1041ffd8ab1be6fc9442cd812573577ffb7f))
+* footer component ([201bdae](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/commit/201bdae7dbac27089296c1de22e7ea54fd31f45e))
+
 # [1.3.0](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.2.0...v1.3.0) (2025-03-31)
 
 
