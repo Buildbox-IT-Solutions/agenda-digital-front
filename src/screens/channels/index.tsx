@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router'
 import backgroundAsset from '~/assets/images/background-asset.svg'
+import { Footer } from '~/components/footer'
 import { Loading } from '~/components/loading'
 import { useGetChannels } from '~/services/channels'
 
@@ -8,7 +9,7 @@ export function ChannelsScreen() {
 		id: string
 	}>()
 
-	const { data: channels, isLoading } = useGetChannels(id)
+	const { data: channels, isLoading, dataUpdatedAt } = useGetChannels(id)
 
 	return (
 		<div
@@ -40,6 +41,8 @@ export function ChannelsScreen() {
 					))}
 				</main>
 			)}
+
+			<Footer dataUpdatedAt={dataUpdatedAt} />
 		</div>
 	)
 }

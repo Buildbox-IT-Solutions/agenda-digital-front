@@ -2,6 +2,8 @@ import clsx from 'clsx'
 import arrowDownRightIcon from '~/assets/icons/arrow-down-right.svg'
 import backgroundAsset from '~/assets/images/background-asset.svg'
 import { Agenda } from '~/components/agenda'
+import { Banner } from '~/components/banner'
+import { Footer } from '~/components/footer'
 import { useChannelScreenContainer } from './container'
 
 export function CarrouselScreen() {
@@ -11,12 +13,14 @@ export function CarrouselScreen() {
 		renderList,
 		scrollContainerRef,
 		config,
+		dataUpdatedAt,
+		currentBanner,
 	} = useChannelScreenContainer()
 
 	return (
 		<div
 			className={clsx(
-				'flex h-screen w-screen items-center justify-center',
+				'flex h-screen w-screen flex-col items-center justify-center',
 				{
 					'bg-center bg-contain': !!config?.background,
 					'bg-cover bg-pink-600': !config?.background,
@@ -32,7 +36,9 @@ export function CarrouselScreen() {
 						}
 			}
 		>
-			<main className="flex h-screen w-full max-w-5xl flex-col">
+			<main className="relative flex h-screen w-full max-w-5xl flex-col">
+				<Banner banner={currentBanner} headerImg={config?.top_banner} />
+
 				<header className="shadow- bg-black/50 shadow-black backdrop-blur-3xl">
 					{config?.top_banner && (
 						<div className="p-12">
@@ -81,6 +87,8 @@ export function CarrouselScreen() {
 					</div>
 				</div>
 			</main>
+
+			<Footer dataUpdatedAt={dataUpdatedAt} />
 		</div>
 	)
 }
