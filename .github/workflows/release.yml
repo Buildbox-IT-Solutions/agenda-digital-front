@@ -19,15 +19,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Read .nvmrc
-        id: nvm
-        run: echo "node_version=$(cat .nvmrc)" >> $GITHUB_OUTPUT
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ steps.nvm.outputs.node_version }}
-
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v4
         env:
