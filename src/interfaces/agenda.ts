@@ -1,5 +1,4 @@
 export interface IAgenda {
-	id?: string
 	title: string
 	beginsAt: string
 	endsAt: string
