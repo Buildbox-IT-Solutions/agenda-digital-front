@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.4.2...v1.5.0) (2025-04-02)
+
+
+### Features
+
+* mock date by query param ([972afc0](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/commit/972afc01808af12d1f4d3b503c2f52fa8eed49d5))
+
 ## [1.4.2](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.4.1...v1.4.2) (2025-04-02)
 
 
