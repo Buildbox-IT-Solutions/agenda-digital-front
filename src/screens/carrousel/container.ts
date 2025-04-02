@@ -48,7 +48,7 @@ export function useChannelScreenContainer() {
 		const availableEvents: IAgenda[] = []
 
 		for (const event of agenda) {
-			const isEnded = isAfter(new Date(), parseISO(event.endsAt))
+			const isEnded = isAfter(new Date(), parseISO(event.beginsAt))
 
 			if (isEnded) continue
 
