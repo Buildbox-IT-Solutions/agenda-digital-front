@@ -23,8 +23,11 @@ export function useCarrouselConfig(
 
 export function useCarrouselAgenda(
 	channelId?: string,
+	mockDate?: string | null,
 ): UseQueryResult<IAgenda[]> {
-	const date = format(new Date(), 'yyyy-MM-dd')
+	const date = mockDate
+		? mockDate.replaceAll('/', '-')
+		: format(new Date(), 'yyyy-MM-dd')
 
 	return useQuery({
 		queryKey: [EQueryKeys.AGENDA, channelId, date],

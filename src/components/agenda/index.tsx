@@ -35,30 +35,32 @@ export function Agenda({ agenda }: IAgendaProps) {
 						</span>
 					</div>
 
-					{agenda.speakers.map(
-						({ firstName, lastName, photoUrl }) => {
-							const fullName = [firstName, lastName]
-								.filter(Boolean)
-								.join(' ')
+					<div className="grid grid-cols-3">
+						{agenda.speakers.map(
+							({ firstName, lastName, photoUrl }) => {
+								const fullName = [firstName, lastName]
+									.filter(Boolean)
+									.join(' ')
 
-							return (
-								<div
-									className="flex items-center gap-2"
-									key={fullName}
-								>
-									<img
-										className="h-9 w-9 rounded-full object-cover"
-										src={photoUrl}
-										alt={fullName}
-									/>
+								return (
+									<div
+										className="flex items-center gap-2"
+										key={fullName}
+									>
+										<img
+											className="h-9 w-9 rounded-full object-cover"
+											src={photoUrl}
+											alt={fullName}
+										/>
 
-									<span className="font-medium text-xl">
-										{fullName}
-									</span>
-								</div>
-							)
-						},
-					)}
+										<span className="font-medium text-xl">
+											{fullName}
+										</span>
+									</div>
+								)
+							},
+						)}
+					</div>
 				</div>
 			)}
 		</div>

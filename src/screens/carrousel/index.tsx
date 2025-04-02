@@ -119,7 +119,7 @@ export function CarrouselScreen() {
 					: undefined
 			}
 		>
-			<main className="relative flex h-screen w-full max-w-5xl flex-col overflow-hidden">
+			<main className="relative flex h-screen w-full flex-col overflow-hidden">
 				<Banner banner={currentBanner} headerImg={config?.top_banner} />
 
 				<div className="relative">
@@ -152,17 +152,19 @@ export function CarrouselScreen() {
 							</div>
 						)}
 
-						<div className="flex items-center gap-2 px-12 py-8">
-							<h2 className="font-barlow font-semibold text-[2rem] text-white uppercase">
-								Próximas palestras
-							</h2>
+						{!!renderList.length && (
+							<div className="flex items-center gap-2 px-12 py-8">
+								<h2 className="font-barlow font-semibold text-[2rem] text-white uppercase">
+									Próximas palestras
+								</h2>
 
-							<img
-								className="h-5 w-5"
-								src={arrowDownRightIcon}
-								alt="arrow down right"
-							/>
-						</div>
+								<img
+									className="h-5 w-5"
+									src={arrowDownRightIcon}
+									alt="arrow down right"
+								/>
+							</div>
+						)}
 					</header>
 				</div>
 
