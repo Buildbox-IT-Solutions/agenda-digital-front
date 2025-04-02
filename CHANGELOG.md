@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.4.1...v1.4.2) (2025-04-02)
+
+
+### Bug Fixes
+
+* render list end event date ([c53b24e](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/commit/c53b24e527e30364aec05d0fb19a1268264b2850))
+
 ## [1.4.1](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.4.0...v1.4.1) (2025-04-02)
 
 
