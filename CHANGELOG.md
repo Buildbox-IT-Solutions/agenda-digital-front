@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.4.0...v1.4.1) (2025-04-02)
+
+
+### Bug Fixes
+
+* some layout issues ([a4fe4c3](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/commit/a4fe4c3ea83f7e9f664411d9629e9413c6f20a4a))
+
 # [1.4.0](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.3.0...v1.4.0) (2025-03-31)
 
 
