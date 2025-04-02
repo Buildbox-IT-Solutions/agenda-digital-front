@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router'
-import backgroundAsset from '~/assets/images/background-asset.svg'
 import { Footer } from '~/components/footer'
 import { Loading } from '~/components/loading'
 import { useGetChannels } from '~/services/channels'
@@ -12,13 +11,8 @@ export function ChannelsScreen() {
 	const { data: channels, isLoading, dataUpdatedAt } = useGetChannels(id)
 
 	return (
-		<div
-			className="flex h-screen w-screen flex-col bg-cover bg-pink-600"
-			style={{
-				backgroundImage: `url(${backgroundAsset})`,
-			}}
-		>
-			<header className="flex h-20 items-center justify-center border-white border-b bg-blue-900">
+		<div className="flex h-screen w-screen flex-col bg-cover bg-slate-800">
+			<header className="flex h-20 items-center justify-center border-white border-b bg-green-400">
 				<h1 className="text-2xl text-white uppercase">Canais</h1>
 			</header>
 

@@ -8,7 +8,7 @@ export function Agenda({ agenda }: IAgendaProps) {
 	return (
 		<div className="flex flex-col gap-8 rounded-2xl bg-white p-8">
 			<div className="flex gap-8">
-				<span className="font-normal text-7xl">{hour}</span>
+				<span className="font-barlow font-normal text-7xl">{hour}</span>
 
 				<div className="flex flex-1 flex-col gap-3">
 					<p className="font-medium text-[2rem]">{agenda.title}</p>
@@ -30,7 +30,7 @@ export function Agenda({ agenda }: IAgendaProps) {
 					<div className="flex items-center gap-2">
 						<img className="h-6 w-6" src={megaphoneIcon} alt="" />
 
-						<span className="font-medium text-xl uppercase">
+						<span className="font-barlow font-medium text-xl uppercase">
 							palestrantes
 						</span>
 					</div>

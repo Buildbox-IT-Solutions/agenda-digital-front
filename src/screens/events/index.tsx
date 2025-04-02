@@ -1,5 +1,4 @@
 import { Link } from 'react-router'
-import backgroundAsset from '~/assets/images/background-asset.svg'
 import { Footer } from '~/components/footer'
 import { Loading } from '~/components/loading'
 import { useGetEvents } from '~/services/events'
@@ -8,13 +7,8 @@ export function EventsScreen() {
 	const { data: events, isLoading, dataUpdatedAt } = useGetEvents()
 
 	return (
-		<div
-			className="flex h-screen w-screen flex-col bg-cover bg-pink-600"
-			style={{
-				backgroundImage: `url(${backgroundAsset})`,
-			}}
-		>
-			<header className="flex min-h-20 items-center justify-center border-white border-b bg-blue-900">
+		<div className="flex h-screen w-screen flex-col bg-cover bg-slate-800">
+			<header className="flex min-h-20 items-center justify-center border-white border-b bg-green-400">
 				<h1 className="text-2xl text-white uppercase">Eventos</h1>
 			</header>
 
@@ -42,7 +36,7 @@ export function EventsScreen() {
 								</h2>
 
 								<button
-									className="rounded-lg bg-blue-900 p-2 text-white"
+									className="rounded-lg bg-slate-800 p-2 text-white"
 									type="button"
 								>
 									Acessar

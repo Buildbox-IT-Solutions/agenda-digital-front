@@ -1,27 +1,27 @@
-import { isWithinInterval, parseISO } from 'date-fns'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { isAfter, isWithinInterval, parseISO } from 'date-fns'
+import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router'
 import type { IAgenda } from '~/interfaces/agenda'
 import type { IChannelAd } from '~/interfaces/channel'
 import { useCarrouselAgenda, useCarrouselConfig } from '~/services/carrousel'
 import { delay } from '~/utils/delay'
 
-const SCROLL_SPEED = 0.1
-
 const INIT_BANNER_TIME = 1000 * 60 // 1 minute
 
 export function useChannelScreenContainer() {
-	const [multiplier, setMultiplier] = useState(1)
-
 	const [currentEvent, setCurrentEvent] = useState<IAgenda | null>(null)
 
 	const [currentBanner, setCurrentBanner] = useState<IChannelAd | null>(null)
 
-	const scrollContainerRef = useRef<HTMLDivElement>(null)
+	const [renderList, setRenderList] = useState<IAgenda[]>([])
 
-	const itemsContainerRef = useRef<HTMLDivElement>(null)
+	const [animationEnd, setAnimationEnd] = useState(0)
 
 	const isBannerStarted = useRef(false)
+
+	const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+	const scrollContentRef = useRef<HTMLDivElement>(null)
 
 	const { id } = useParams<{
 		id: string
@@ -29,26 +29,34 @@ export function useChannelScreenContainer() {
 
 	const { data: config } = useCarrouselConfig(id)
 
-	const { data: agenda, dataUpdatedAt } = useCarrouselAgenda(id)
+	const {
+		data: agenda,
+		dataUpdatedAt,
+		isSuccess,
+		isLoading,
+	} = useCarrouselAgenda(id)
 
 	const banners = config?.items.filter((item) => item.type === 'banner') || []
 
-	const renderList = useMemo(() => {
-		if (!agenda) return []
+	const isEmptyAgenda = !agenda?.length
 
-		const multipliedEvents: IAgenda[] = []
+	const isEnded = !isEmptyAgenda && renderList.length === 0
 
-		for (let i = 0; i < multiplier; i++) {
-			for (const event of agenda) {
-				multipliedEvents.push({
-					...event,
-					id: `${event.title}-${i}`,
-				})
-			}
+	function updateRenderList() {
+		if (!agenda?.length) return
+
+		const availableEvents: IAgenda[] = []
+
+		for (const event of agenda) {
+			const isEnded = isAfter(new Date(), parseISO(event.endsAt))
+
+			if (isEnded) continue
+
+			availableEvents.push(event)
 		}
 
-		return multipliedEvents
-	}, [agenda, multiplier])
+		setRenderList(availableEvents)
+	}
 
 	function verifyCurrentEvent() {
 		const now = new Date()
@@ -70,76 +78,48 @@ export function useChannelScreenContainer() {
 		}
 	}
 
-	function currentEventObserver() {
+	async function calcAnimationEnd() {
+		await delay(100)
+
+		const content = scrollContentRef.current
+		const container = scrollContainerRef.current
+
+		if (!content || !container) return
+
+		const contentHeight = content.scrollHeight
+		const containerHeight = container.clientHeight
+
+		if (contentHeight <= containerHeight) {
+			setAnimationEnd(0)
+			return
+		}
+
+		const end = container.clientHeight - contentHeight - 48 * 2 // 48 is the padding top and bottom
+
+		setAnimationEnd(end)
+	}
+
+	function startObservers() {
 		verifyCurrentEvent()
+		updateRenderList()
+		calcAnimationEnd()
 
-		const intervalId = setInterval(verifyCurrentEvent, 1000 * 30) //30 seconds
+		const currentEventInterval = setInterval(verifyCurrentEvent, 1000 * 60) //1 minute
 
-		return () => {
-			clearInterval(intervalId)
-		}
-	}
-	useEffect(currentEventObserver, [agenda])
+		const renderListInterval = setInterval(updateRenderList, 1000 * 60) //1 minute
 
-	function calcMultiplier() {
-		if (!agenda) return
-
-		const scrollContainer = scrollContainerRef.current
-		const itemsContainer = itemsContainerRef.current
-
-		if (scrollContainer && itemsContainer) {
-			const containerHeight = scrollContainer.clientHeight
-			const itemHeight = itemsContainer.children[0]?.clientHeight || 0
-
-			if (itemHeight) {
-				const minRequiredHeight = containerHeight * 2
-				const currentTotalHeight = itemHeight * agenda.length
-				const multiplier = Math.ceil(
-					minRequiredHeight / currentTotalHeight,
-				)
-
-				const factor = Math.max(multiplier, 1)
-				setMultiplier(factor)
-			}
-		}
-	}
-	useEffect(calcMultiplier, [agenda?.length])
-
-	function handleAutoScroll() {
-		const scrollContainer = scrollContainerRef.current
-		if (!scrollContainer) return
-
-		let animationFrameId: number
-		let lastTimestamp = 0
-
-		function animate(timestamp: number) {
-			if (!scrollContainer) return
-
-			if (!lastTimestamp) lastTimestamp = timestamp
-			const deltaTime = timestamp - lastTimestamp
-
-			scrollContainer.scrollTop += SCROLL_SPEED * deltaTime
-
-			if (
-				scrollContainer.scrollTop + scrollContainer.clientHeight >=
-				scrollContainer.scrollHeight
-			) {
-				scrollContainer.scrollTop = 0
-			}
-
-			lastTimestamp = timestamp
-			animationFrameId = requestAnimationFrame(animate)
-		}
-
-		animationFrameId = requestAnimationFrame(animate)
+		window.addEventListener('resize', calcAnimationEnd)
+		window.addEventListener('orientationchange', calcAnimationEnd)
 
 		return () => {
-			if (animationFrameId) {
-				cancelAnimationFrame(animationFrameId)
-			}
+			clearInterval(currentEventInterval)
+			clearInterval(renderListInterval)
+
+			window.removeEventListener('resize', calcAnimationEnd)
+			window.removeEventListener('orientationchange', calcAnimationEnd)
 		}
 	}
-	useEffect(handleAutoScroll, [SCROLL_SPEED])
+	useEffect(startObservers, [agenda, isSuccess])
 
 	async function startBanner() {
 		if (!banners.length || isBannerStarted.current) return
@@ -166,10 +146,14 @@ export function useChannelScreenContainer() {
 	return {
 		currentEvent,
 		scrollContainerRef,
-		itemsContainerRef,
 		renderList,
 		config,
 		dataUpdatedAt,
 		currentBanner,
+		animationEnd,
+		scrollContentRef,
+		isEnded,
+		isEmptyAgenda,
+		isLoading,
 	}
 }
