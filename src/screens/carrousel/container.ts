@@ -1,6 +1,6 @@
 import { isAfter, isWithinInterval, parseISO } from 'date-fns'
 import { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router'
+import { useParams, useSearchParams } from 'react-router'
 import type { IAgenda } from '~/interfaces/agenda'
 import type { IChannelAd } from '~/interfaces/channel'
 import { useCarrouselAgenda, useCarrouselConfig } from '~/services/carrousel'
@@ -23,6 +23,12 @@ export function useChannelScreenContainer() {
 
 	const scrollContentRef = useRef<HTMLDivElement>(null)
 
+	const [searchParams] = useSearchParams()
+
+	const dateParam = searchParams.get('date')
+
+	const timeParam = searchParams.get('time')
+
 	const { id } = useParams<{
 		id: string
 	}>()
@@ -34,7 +40,16 @@ export function useChannelScreenContainer() {
 		dataUpdatedAt,
 		isSuccess,
 		isLoading,
-	} = useCarrouselAgenda(id)
+	} = useCarrouselAgenda(id, dateParam)
+
+	const now = new Date()
+
+	if (timeParam) {
+		const [hours, minutes] = timeParam.split(':')
+
+		now.setHours(Number(hours))
+		now.setMinutes(Number(minutes))
+	}
 
 	const banners = config?.items.filter((item) => item.type === 'banner') || []
 
@@ -48,7 +63,7 @@ export function useChannelScreenContainer() {
 		const availableEvents: IAgenda[] = []
 
 		for (const event of agenda) {
-			const isEnded = isAfter(new Date(), parseISO(event.beginsAt))
+			const isEnded = isAfter(now, parseISO(event.beginsAt))
 
 			if (isEnded) continue
 
@@ -59,8 +74,6 @@ export function useChannelScreenContainer() {
 	}
 
 	function verifyCurrentEvent() {
-		const now = new Date()
-
 		for (const event of agenda || []) {
 			const startDate = parseISO(event.beginsAt)
 
