@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { format } from 'date-fns'
 import arrowDownRightIcon from '~/assets/icons/arrow-down-right.svg'
+import dropsShadowAsset from '~/assets/images/drop-shadow.svg'
 import { Agenda } from '~/components/agenda'
 import { Banner } from '~/components/banner'
 import { Footer } from '~/components/footer'
@@ -85,8 +86,14 @@ export function CarrouselScreen() {
 		return (
 			<div
 				ref={scrollContainerRef}
-				className="flex w-full flex-1 flex-col gap-6 overflow-y-hidden p-12"
+				className="relative flex w-full flex-1 flex-col gap-6 overflow-y-hidden p-12"
 			>
+				<img
+					src={dropsShadowAsset}
+					alt=""
+					className="absolute top-0 left-0 z-10 w-full"
+				/>
+
 				<div
 					ref={scrollContentRef}
 					style={{

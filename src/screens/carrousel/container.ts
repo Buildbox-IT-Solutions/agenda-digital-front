@@ -42,7 +42,7 @@ export function useChannelScreenContainer() {
 		isLoading,
 	} = useCarrouselAgenda(id, dateParam)
 
-	const now = new Date()
+	const now = dateParam ? new Date(dateParam) : new Date()
 
 	if (timeParam) {
 		const [hours, minutes] = timeParam.split(':')
@@ -57,15 +57,28 @@ export function useChannelScreenContainer() {
 
 	const isEnded = !isEmptyAgenda && renderList.length === 0
 
+	function verifyCurrentEvent(event: IAgenda) {
+		const startDate = parseISO(event.beginsAt)
+
+		const endDate = parseISO(event.endsAt)
+
+		return isWithinInterval(now, {
+			start: startDate,
+			end: endDate,
+		})
+	}
+
 	function updateRenderList() {
 		if (!agenda?.length) return
 
 		const availableEvents: IAgenda[] = []
 
 		for (const event of agenda) {
-			const isEnded = isAfter(now, parseISO(event.beginsAt))
+			const isEnded = isAfter(now, parseISO(event.endsAt))
 
-			if (isEnded) continue
+			const isCurrentEvent = verifyCurrentEvent(event)
+
+			if (isEnded || isCurrentEvent) continue
 
 			availableEvents.push(event)
 		}
@@ -73,16 +86,9 @@ export function useChannelScreenContainer() {
 		setRenderList(availableEvents)
 	}
 
-	function verifyCurrentEvent() {
+	function updateCurrentEvent() {
 		for (const event of agenda || []) {
-			const startDate = parseISO(event.beginsAt)
-
-			const endDate = parseISO(event.endsAt)
-
-			const isCurrentEvent = isWithinInterval(now, {
-				start: startDate,
-				end: endDate,
-			})
+			const isCurrentEvent = verifyCurrentEvent(event)
 
 			if (isCurrentEvent) {
 				setCurrentEvent(event)
@@ -113,11 +119,11 @@ export function useChannelScreenContainer() {
 	}
 
 	function startObservers() {
-		verifyCurrentEvent()
+		updateCurrentEvent()
 		updateRenderList()
 		calcAnimationEnd()
 
-		const currentEventInterval = setInterval(verifyCurrentEvent, 1000 * 60) //1 minute
+		const currentEventInterval = setInterval(updateCurrentEvent, 1000 * 60) //1 minute
 
 		const renderListInterval = setInterval(updateRenderList, 1000 * 60) //1 minute
 
