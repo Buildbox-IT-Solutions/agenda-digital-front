@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.5.0...v1.6.0) (2025-04-04)
+
+
+### Features
+
+* add user icon and drop shadow assets; enhance agenda layout ([e3ec2b2](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/commit/e3ec2b26941ac6215f5bf89ab4b28d1f637fa145))
+
 # [1.5.0](https://github.com/Buildbox-IT-Solutions/agenda-digital-front/compare/v1.4.2...v1.5.0) (2025-04-02)
 
 
