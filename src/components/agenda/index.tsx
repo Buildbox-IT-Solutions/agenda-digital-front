@@ -1,12 +1,13 @@
 import { format, parseISO } from 'date-fns'
 import megaphoneIcon from '~/assets/icons/megaphone.svg'
+import userIcon from '~/assets/icons/user-circle.svg'
 import type { IAgendaProps } from './types'
 
 export function Agenda({ agenda }: IAgendaProps) {
 	const hour = format(parseISO(agenda.beginsAt), 'HH:mm')
 
 	return (
-		<div className="flex flex-col gap-8 rounded-2xl bg-white p-8">
+		<div className="flex flex-col gap-8 rounded-2xl bg-white p-8 drop-shadow-2xl">
 			<div className="flex gap-8">
 				<span className="font-barlow font-normal text-7xl">{hour}</span>
 
@@ -35,7 +36,7 @@ export function Agenda({ agenda }: IAgendaProps) {
 						</span>
 					</div>
 
-					<div className="grid grid-cols-3">
+					<div className="grid grid-cols-3 gap-x-4">
 						{agenda.speakers.map(
 							({ firstName, lastName, photoUrl }) => {
 								const fullName = [firstName, lastName]
@@ -49,7 +50,7 @@ export function Agenda({ agenda }: IAgendaProps) {
 									>
 										<img
 											className="h-9 w-9 rounded-full object-cover"
-											src={photoUrl}
+											src={photoUrl || userIcon}
 											alt={fullName}
 										/>
 
